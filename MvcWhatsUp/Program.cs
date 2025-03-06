@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using MvcWhatsUp.Repositories;
 
 namespace MvcWhatsUp
@@ -7,6 +8,13 @@ namespace MvcWhatsUp
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            //Add DbContext
+            builder.Services.AddDbContext<ApplicationDbContext>(OptionsBuilderConfigurationExtensions =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            //Add Controllers and Views
+            builder.Services.AddControllersWithViews();
 
             // Add services to the container.
             builder.Services.AddSingleton<IUsersRepository, DummyUsersRepository>();
@@ -31,7 +39,7 @@ namespace MvcWhatsUp
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=HomeIndex}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
         }

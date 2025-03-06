@@ -1,0 +1,14 @@
+﻿@model IEnumerable<MvcWhatsUp.Models.Message>
+
+@{
+	ViewData["Title"] = "Users";
+}
+
+<h2>Messages</h2>
+
+<ul>
+	@foreach (var message in Model)
+	{
+		<li>@message.Content - @message.CreatedAt</li>
+	}
+</ul>
